@@ -45,7 +45,7 @@ public class MainActivity extends Activity {
         sv.setSmoothScrollingEnabled(true);
         lv = (ListView) this.findViewById(R.id.listview);
         handler = new MHandler();
-        for(int i = 0; i < 3; i++)
+        for(int i = 0; i < 26; i++)
         {
             charList.add((char) ('a' + i));
         }
@@ -96,7 +96,7 @@ public class MainActivity extends Activity {
                 {
                     if(MotionEvent.ACTION_UP == action)
                     {
-                        sv.post(new Runnable() {@Override public void run() {sv.smoothScrollTo(0, 200);}});
+                        sv.smoothHide();
                     }
                     else if(progress > 0)
                     {
@@ -123,7 +123,6 @@ public class MainActivity extends Activity {
                 ((ArrayAdapter)lv.getAdapter()).notifyDataSetChanged();
                 sv.reSize(lv);
                 head_img.clearAnimation();
-                sv.smoothHide();
                 sv.smoothHide();
             }
         }

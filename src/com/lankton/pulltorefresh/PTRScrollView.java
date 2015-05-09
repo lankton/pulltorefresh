@@ -86,7 +86,7 @@ public class PTRScrollView extends ScrollView{
         int progress = (headViewHeight - scrollY) * 100 / headViewHeight;
         if(null != this.onPullListener) {
             if(progress >= 0)
-            {Log.e(tag, String.valueOf(ev.getAction()));
+            {
                 this.onPullListener.onPull(progress, ev.getAction());
             }
         }
@@ -119,8 +119,7 @@ public class PTRScrollView extends ScrollView{
     
     public void smoothHide()
     {
-        this.scrollTo(0, this.headViewHeight);
-        this.smoothScrollTo(0, this.headViewHeight);
+        this.post(new Runnable() {@Override public void run() {PTRScrollView.this.smoothScrollTo(0, 200);}});
     }
 
     interface OnPullListener{
