@@ -45,7 +45,7 @@ public class MainActivity extends Activity {
         sv.setSmoothScrollingEnabled(true);
         lv = (ListView) this.findViewById(R.id.listview);
         handler = new MHandler();
-        for(int i = 0; i < 26; i++)
+        for(int i = 0; i < 3; i++)
         {
             charList.add((char) ('a' + i));
         }
@@ -53,7 +53,6 @@ public class MainActivity extends Activity {
         
         lv.setAdapter(new ArrayAdapter<Character>(this,
                 android.R.layout.simple_list_item_1, charList));
-        lv.setSelection(0);
         sv.reSize(lv);
         
         sv.setOnPullListener(new OnPullListener(){
