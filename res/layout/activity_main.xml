@@ -1,0 +1,22 @@
+
+    <com.lankton.pulltorefresh.PTRScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/mPTRScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <include
+                layout="@layout/header"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"/>
+            <ListView
+                android:id="@+id/listview" 
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+    </com.lankton.pulltorefresh.PTRScrollView>
+
