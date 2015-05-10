@@ -67,17 +67,17 @@ public class MainActivity extends Activity {
         
         sv.setOnPullListener(new OnPullListener(){
             boolean isFull = false;
+            boolean isLoading = false;
 
             @Override
             public void onPull(int progress, int action) {
                 // TODO Auto-generated method stub
-                
+                if(isLoading)
+                {
+                    return;
+                }
                 if(progress == 100)
                 {
-                    if(!isFull)
-                    {
-                        head_img.startAnimation(anim_arrow);
-                    }
                     if(MotionEvent.ACTION_UP == action)
                     {
                             head_img.clearAnimation();
@@ -85,6 +85,7 @@ public class MainActivity extends Activity {
                             head_img2.setVisibility(View.VISIBLE);
                             head_img2.startAnimation(anim);
                             head_text.setText("loading...");
+                            isLoading = true;
                             new Thread(new Runnable(){
 
                                 @Override
@@ -95,6 +96,7 @@ public class MainActivity extends Activity {
                                         charList.add((char) ('a' + nextIndex));
                                         nextIndex ++;
                                         handler.sendEmptyMessage(0);
+                                        isLoading = false;
                                     } catch (InterruptedException e) {
                                         // TODO Auto-generated catch block
                                         e.printStackTrace();
