@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
@@ -26,8 +27,12 @@ public class MainActivity extends Activity {
     private PTRScrollView sv;
     private TextView head_text;
     private ImageView head_img;
+    private ImageView head_img2;
     private MHandler handler;
     private Animation anim;
+    private Animation anim_arrow;
+    private Animation anim_arrow_reverse;
+    
     private int nextIndex = 0;
     
     private static ArrayList<Character> charList = new ArrayList<Character>();
@@ -37,9 +42,14 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         head_text = (TextView) this.findViewById(R.id.head_text);
         head_img = (ImageView) this.findViewById(R.id.head_img);
+        head_img2 = (ImageView) this.findViewById(R.id.head_img2);
         
         anim = AnimationUtils.loadAnimation(this, R.anim.retate);
         anim.setFillAfter(true);
+        anim_arrow = AnimationUtils.loadAnimation(this, R.anim.retate_arrow);
+        anim_arrow.setFillAfter(true);
+        anim_arrow_reverse = AnimationUtils.loadAnimation(this, R.anim.retate_arrow_reverse);
+        anim_arrow_reverse.setFillAfter(true);
         
         sv = (PTRScrollView) this.findViewById(R.id.mPTRScrollView);
         sv.setSmoothScrollingEnabled(true);
@@ -56,6 +66,7 @@ public class MainActivity extends Activity {
         sv.reSize(lv);
         
         sv.setOnPullListener(new OnPullListener(){
+            boolean isFull = false;
 
             @Override
             public void onPull(int progress, int action) {
@@ -63,9 +74,16 @@ public class MainActivity extends Activity {
                 
                 if(progress == 100)
                 {
+                    if(!isFull)
+                    {
+                        head_img.startAnimation(anim_arrow);
+                    }
                     if(MotionEvent.ACTION_UP == action)
                     {
-                            head_img.startAnimation(anim);
+                            head_img.clearAnimation();
+                            head_img.setVisibility(View.INVISIBLE);
+                            head_img2.setVisibility(View.VISIBLE);
+                            head_img2.startAnimation(anim);
                             head_text.setText("loading...");
                             new Thread(new Runnable(){
 
@@ -89,8 +107,10 @@ public class MainActivity extends Activity {
                     } 
                     else
                     {
-                             head_text.setText("release to refresh");
+                        head_text.setText("release to refresh");
+                                                    
                     }
+                    isFull = true;
                 }
                 else
                 {
@@ -100,10 +120,13 @@ public class MainActivity extends Activity {
                     }
                     else if(progress > 0)
                     {
+                        if(isFull)
                         {
-                            head_text.setText("pulled: " + progress + "%");
+                            head_img.startAnimation(anim_arrow_reverse);
                         }
+                        head_text.setText("pull to refresh (" + progress + "%)");
                     }
+                    isFull = false;
                 }
                 
                 
@@ -120,10 +143,15 @@ public class MainActivity extends Activity {
             // TODO Auto-generated method stub
             super.handleMessage(msg);
             if(0 == msg.what) {
+                sv.quickHide();
                 ((ArrayAdapter)lv.getAdapter()).notifyDataSetChanged();
-                sv.reSize(lv);
-                head_img.clearAnimation();
-                sv.smoothHide();
+                sv.reSize(lv); 
+                head_img2.clearAnimation();
+                head_img2.setVisibility(View.INVISIBLE);
+                head_img.setVisibility(View.VISIBLE);
+                head_text.setText("");
+                
+                Toast.makeText(MainActivity.this, "load successful", Toast.LENGTH_LONG).show();
             }
         }
         

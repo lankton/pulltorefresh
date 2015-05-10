@@ -119,7 +119,11 @@ public class PTRScrollView extends ScrollView{
     
     public void smoothHide()
     {
-        this.post(new Runnable() {@Override public void run() {PTRScrollView.this.smoothScrollTo(0, 200);}});
+        this.post(new Runnable() {@Override public void run() {PTRScrollView.this.smoothScrollTo(0, PTRScrollView.this.headViewHeight);}});
+    }
+    public void quickHide()
+    {
+        this.scrollTo(0, PTRScrollView.this.headViewHeight);
     }
 
     interface OnPullListener{
