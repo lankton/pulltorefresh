@@ -78,6 +78,10 @@ public class MainActivity extends Activity {
                 }
                 if(progress == 100)
                 {
+                    if(!isFull)
+                    {
+                        head_img.startAnimation(anim_arrow);
+                    }
                     if(MotionEvent.ACTION_UP == action)
                     {
                             head_img.clearAnimation();
@@ -109,6 +113,7 @@ public class MainActivity extends Activity {
                     } 
                     else
                     {
+                        
                         head_text.setText("release to refresh");
                                                     
                     }
@@ -116,18 +121,11 @@ public class MainActivity extends Activity {
                 }
                 else
                 {
-                    if(MotionEvent.ACTION_UP == action)
+                    if(isFull)
                     {
-                        sv.smoothHide();
+                        head_img.startAnimation(anim_arrow_reverse);
                     }
-                    else if(progress > 0)
-                    {
-                        if(isFull)
-                        {
-                            head_img.startAnimation(anim_arrow_reverse);
-                        }
-                        head_text.setText("pull to refresh (" + progress + "%)");
-                    }
+                    head_text.setText("pull to refresh (" + progress + "%)");
                     isFull = false;
                 }
                 
@@ -144,16 +142,16 @@ public class MainActivity extends Activity {
         public void handleMessage(Message msg) {
             // TODO Auto-generated method stub
             super.handleMessage(msg);
-            if(0 == msg.what) {
-                sv.quickHide();
+            if(0 == msg.what) 
+            {
                 ((ArrayAdapter)lv.getAdapter()).notifyDataSetChanged();
                 sv.reSize(lv); 
+                sv.quickHide();
                 head_img2.clearAnimation();
                 head_img2.setVisibility(View.INVISIBLE);
                 head_img.setVisibility(View.VISIBLE);
                 head_text.setText("");
-                
-                Toast.makeText(MainActivity.this, "load successful", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "load successful", Toast.LENGTH_SHORT).show();
             }
         }
         

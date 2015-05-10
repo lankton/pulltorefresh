@@ -84,10 +84,16 @@ public class PTRScrollView extends ScrollView{
         // TODO Auto-generated method stub
         int scrollY = this.getScrollY();
         int progress = (headViewHeight - scrollY) * 100 / headViewHeight;
-        if(null != this.onPullListener) {
+        int action = ev.getAction();
+        if(MotionEvent.ACTION_UP == action && progress < 100)
+        {
+            this.smoothHide();
+        }
+        else if(null != this.onPullListener) 
+        {
             if(progress >= 0)
             {
-                this.onPullListener.onPull(progress, ev.getAction());
+                this.onPullListener.onPull(progress, action);
             }
         }
         return super.onTouchEvent(ev);
