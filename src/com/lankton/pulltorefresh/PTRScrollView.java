@@ -1,6 +1,5 @@
 package com.lankton.pulltorefresh;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -18,8 +17,6 @@ public class PTRScrollView extends ScrollView{
     private String tag = "PTRScrollView";
     private Context context;
     private OnPullListener onPullListener;
-    private boolean isInit = true;
-    private int count = 0;
     private int screenHeight = 0;
 
     public PTRScrollView(Context context) {
@@ -75,7 +72,6 @@ public class PTRScrollView extends ScrollView{
         initView();
         headViewHeight = headView.getLayoutParams().height;
         
-        isInit = false;
     }
     
     
