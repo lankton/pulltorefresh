@@ -63,7 +63,7 @@ public class MainActivity extends Activity {
                 
                 if(progress == 100)
                 {
-                    if(MotionEvent.ACTION_UP == action || MotionEvent.ACTION_HOVER_EXIT == action)
+                    if(MotionEvent.ACTION_UP == action)
                     {
                             head_img.startAnimation(anim);
                             head_text.setText("loading...");
@@ -73,14 +73,15 @@ public class MainActivity extends Activity {
                                 public void run() {
                                     // TODO Auto-generated method stub
                                     try {
+                                        Thread.sleep(3000);
                                         charList.add((char) ('a' + nextIndex));
                                         nextIndex ++;
-                                        Thread.sleep(3000);
+                                        handler.sendEmptyMessage(0);
                                     } catch (InterruptedException e) {
                                         // TODO Auto-generated catch block
                                         e.printStackTrace();
                                     }
-                                    handler.sendEmptyMessage(0);
+                                    
                                 }
                                 
                             }).start();
